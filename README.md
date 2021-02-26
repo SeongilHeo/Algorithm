@@ -1,9 +1,9 @@
 # Algorithm
 
-P : Programmers
-B : Backjoon
-H : Hufs
-E : Etc
+P : Programmers  
+B : Backjoon  
+H : Hufs  
+E : Etc  
 
 ```python #
 # 2021-01-01
