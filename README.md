@@ -21,7 +21,9 @@ with open("%s-%s.py"%(which,problem_name),'w') as f:
 ```
 
 ex)
+```python
 which= "B"
 problem_name="No."+code.split('\n')[0].split('/')[-1]
 with open("C:/Users/tjddl/Desktop/algom/%s-%s.py"%(which,problem_name),'w') as f:
     f.write(code)
+```
