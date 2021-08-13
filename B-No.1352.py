@@ -1,5 +1,4 @@
 # src: https://www.acmicpc.net/problem/1352
-# ref : http://www.secmem.org/blog/2019/04/22/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EB%AC%B8%EC%A0%9C-%ED%92%80%EC%9D%B4/
 def dp(x,s):
     if cc[x][s]!= -1:
         return cc[x][s]
