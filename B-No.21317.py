@@ -1,4 +1,5 @@
 # src: https://www.acmicpc.net/problem/21317
+# ref: https://blog.naver.com/PostView.nhn?blogId=gustn3964&logNo=222303877311
 N=int(input())
 dp=[[9999999,9999999] for _ in range(N+4)]
 jump=[tuple(map(int,input().split())) for _ in range(N-1)]
