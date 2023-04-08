@@ -77,7 +77,7 @@ def after_move(i):
     otherUser = isUserExisted(i, x, y)
     
     # 플레이어 없다면
-    if not otherUser:
+    if otherUser is None:
         getGun(i)
     # 플레이어가 있다면 싸우기
     else:
