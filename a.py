@@ -1,4 +1,3 @@
-import math
 global locations, dx, dy, weapon, board, n, m, k, directions, firstPower
 
 # 방향
@@ -14,15 +13,13 @@ def getGunInfo():
             else:
                 board[i][j].append(a[j])
 
-
 def getUserInfo():
-    for i in range(m):
+    for _ in range(m):
         aa = list(map(int, input().split()))
         x, y, d, s = aa[0], aa[1], aa[2], aa[3]
         locations.append([x - 1, y - 1])
         directions.append(d)
         firstPower.append(s)
-
 
 def move(i):
     x, y, = locations[i]
@@ -34,15 +31,14 @@ def move(i):
     # 격자 범위 벗어나면
     if nx < 0 or nx >= n or ny < 0 or ny >= n:
         # 정반대로 방향 변경
-        newd = (d + 2)%4
+        nd = (d + 2)%4
 
-        nnx = x + dx[newd]
-        nny = y + dy[newd]
+        nx = x + dx[nd]
+        ny = y + dy[nd]
         # 플레이어 위치,방향 업데이트
-        locations[i] = nnx, nny
-        directions[i] = newd
-    else:
-        locations[i] = nx, ny
+        directions[i] = nd
+
+    locations[i] = nx, ny
 
 # 현재 유저, 해당 유저의 x좌표, y좌표
 def isUserExisted(i, user_x, user_y):
@@ -52,30 +48,26 @@ def isUserExisted(i, user_x, user_y):
             # x,y 좌표 똑같다면, 해당 위치에 다른 플레이어 존재
             if user_x == locations[j][0] and user_y == locations[j][1]:
                 return j
-    return "no"
-
-# 격자에 총이 존재하는지?
-def isGunExisted(x, y):
-    if board[x][y]:
-        return True
-    return False
+    return
 
 # 유저번호, 총이 있는 좌표
-def getGun(i, gun_x, gun_y):
+def getGun(i):
+    x,y=locations[i]
+    if not board[x][y]:
+        return 
     # 놓여져 있는 총과 유저가 가진 총 중에서 더 센 총 획득
-    putGunsMax, userGun = 0, 0
     userGun = weapon[i]
-    putGunsMax = max(board[gun_x][gun_y])
+    putGunsMax = max(board[x][y])
 
     # 놓여져 있는 총이 더 쎄다면
     if putGunsMax > userGun:
         # user가 총이 있으면
         if userGun !=0:
             # 바닥에 내려놓기
-            board[gun_x][gun_y].append(userGun)
+            board[x][y].append(userGun)
 
         # 가장 쎈 총 획득
-        board[gun_x][gun_y].remove(putGunsMax)
+        board[x][y].remove(putGunsMax)
         weapon[i]=putGunsMax
     # 유저가 가진 총이 더 쎄다면 아무 것도 하지 않음
 
@@ -83,13 +75,10 @@ def getGun(i, gun_x, gun_y):
 def after_move(i):
     x, y = locations[i]
     otherUser = isUserExisted(i, x, y)
+    
     # 플레이어 없다면
-    if otherUser=="no":
-        # 해당 칸에 총 있음
-        if isGunExisted(x, y):
-            getGun(i,x,y)
-        # 해당 칸에 총 없으면 패스
-
+    if not otherUser:
+        getGun(i)
     # 플레이어가 있다면 싸우기
     else:
         fight(i,otherUser)
@@ -113,41 +102,39 @@ def fight(user1, user2):
         loser = user1
 
     # loser action
-    loser_action(loser, locations[loser][0], locations[loser][1])
+    loser_action(loser)
     
     # winner action
     # 각 플레이어의 초기 능력치와 갖고있는 총의 공격력의 합의 차이만큼 포인트 획득
     points[winner] += abs(user1_info - user2_info)
-    if isGunExisted(*locations[winner]):
-        getGun(winner,*locations[winner])
+    getGun(winner)
         
 # 싸움에서 진 플레이어
-def loser_action(loser, x, y):
+def loser_action(loser):
     # 본인이 가진 총을 해당 격자에 모두 내려놓기
     if weapon[loser]!=0:
         board[x][y].append(weapon[loser])
         weapon[loser]=0
 
     # 이동
-    userx, usery = locations[loser]
+    x, y = locations[loser]
     d = directions[loser]
-    nx = userx + dx[d] # 이동할 곳
-    ny = usery + dy[d]
+    nx = x + dx[d] # 이동할 곳
+    ny = y + dy[d]
 
     # 다른 플레이어 존재하거나 격자 벗어나면
-    while isUserExisted(loser, nx, ny) !="no" or nx < 0 or nx >= n or ny < 0 or ny >= n:
+    while isUserExisted(loser, nx, ny) or nx < 0 or nx >= n or ny < 0 or ny >= n:
         # 오른쪽으로 90도씩 회전
         d=(d+1)%4
-        nx=userx+dx[d]
-        ny=usery+dy[d]
+        nx=x+dx[d]
+        ny=y+dy[d]
 
-    # 이동해야함
+    # 이동 & 방향 업데이트
     locations[loser] = nx, ny
     directions[loser]=d
     
     # 해당 칸에 총이 있다면
-    if isGunExisted(*locations[loser]):
-        getGun(loser,*locations[loser])
+    getGun(loser)
 
 n, m, k = map(int, input().split())
 board = [[[] for _ in range(n)] for _ in range(n)]
@@ -160,13 +147,10 @@ points = [0] * m
 getGunInfo()
 getUserInfo()
 
-cur = 0
-
-while cur < k:
+for i in range(k):
     for user in range(m):
         move(user)
         after_move(user)
-    cur += 1
 
 for i in points:
     print(i, end=" ")
