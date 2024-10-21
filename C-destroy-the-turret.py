@@ -1,4 +1,4 @@
- src: https://www.codetree.ai/training-field/frequent-problems/destroy-the-turret
+#  src: https://www.codetree.ai/training-field/frequent-problems/destroy-the-turret
 
 global alive, board,M,N
 dx=[1,0,-1,0] # M
