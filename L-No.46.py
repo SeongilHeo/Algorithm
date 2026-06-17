@@ -43,3 +43,21 @@ class Solution:
 
 # After the recursive call returns, I remove the last number from the path and mark it as unused again, so that I can try other choices.
 
+
+# We will actually write this ourselves. 
+
+# So we will get n is the length of the numbers, and we will get two dynamic array, answer and sol.
+# answer is that we return, and sol is a partial solution.
+
+# Now, our backtrack fucntion will be recursive. 
+
+# Our base case is our length of solution is n, we hit a solution. 
+
+# So we will answer append a solution copy. And from there, we just return.
+
+# Now, here's the trick. For each x in the numbers, if thatnumbers is not is our solution, then we will append that nubmer, recursively.
+
+# Call our backtrack function, and when we return we need to pop that same number off.
+
+# Outside we can simply just call our backtrack function once. 
+# That'll poplutate answer, and we can return that. 
