@@ -1,20 +1,24 @@
-# Yes. Umm...
-# I think we can use DFS algorithm.
+# Yes, I think we can solve this problem using DFS with backtracking.
 
-# we need to find the path including the word at the grid map.
-# so we can run the DFS algorithm from each cell as start point.
-# the DFS fucntion will be recursive, and each recursion stage we can get the next character.
-# We can say it is a backtracking approache for DFS.
+# We need to check whether the given word exists as a path in the grid.
+# Since the path can start from any cell, we can run DFS from each cell as a starting point.
 
-# Let's implement it.
-# dfs function is the recursive fuction so we need a base case. 
-# when the index reach the length of the word we can say we hit the solution.
+# The DFS function will be recursive.
+# At each recursive call, we check whether the current cell matches the current character in the word.
+# If it matches, we move to the next character and continue searching in four directions.
 
-# and we also need to check is in boundary and visited becuase they said "the same letter cell may not be used more than once."
+# This is also a backtracking approach because we temporarily mark a cell as visited,
+# explore possible paths from that cell, and then restore the cell before returning.
 
-# I will swich the cell to special character '#' temporary to mark as the cell is visited.
-# and the call the dfs fucntion recursive toward 4 dirction.
-# if one of them get the True result, we got the possible path.
+# For the base case, if the current index reaches the last character of the word
+# and the character matches, then we have found a valid path.
+
+# We also need to check the boundary and avoid revisiting the same cell,
+# because the problem states that the same letter cell cannot be used more than once.
+
+# To mark a cell as visited, I will temporarily replace it with a special character, '#'.
+# Then, I will recursively call DFS in four directions: up, down, left, and right.
+# If any of those recursive calls returns True, it means we found a valid path.
 
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
