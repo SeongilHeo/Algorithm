@@ -1,3 +1,21 @@
+# Yes. Umm...
+# I think we can use DFS algorithm.
+
+# we need to find the path including the word at the grid map.
+# so we can run the DFS algorithm from each cell as start point.
+# the DFS fucntion will be recursive, and each recursion stage we can get the next character.
+# We can say it is a backtracking approache for DFS.
+
+# Let's implement it.
+# dfs function is the recursive fuction so we need a base case. 
+# when the index reach the length of the word we can say we hit the solution.
+
+# and we also need to check is in boundary and visited becuase they said "the same letter cell may not be used more than once."
+
+# I will swich the cell to special character '#' temporary to mark as the cell is visited.
+# and the call the dfs fucntion recursive toward 4 dirction.
+# if one of them get the True result, we got the possible path.
+
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
         H = len(board)
