@@ -1,16 +1,23 @@
 """
-we need to find the minimum number of jumps
+We need to find the minimum number of jumps required to reach the last index.
 
-and nums array represents the maximum jump steps.
-this means all previous cells are reachable after jump forward.
+Each value in nums represents the maximum number of steps we can jump forward from that position.
 
-for example if we jump from index 0 to index 3, indcies 0,1,2,3 are reachable within same number of jump
+The key idea is to use a greedy approach that is similar to BFS.
+We scan the array while keeping track of two values:
 
-So we can only consider farthest index, and we can increase jumps count after the farthest index
+    farthest: the farthest index we can reach with one more jump
+    cur_end: the end of the current jump range
 
-but the farthest value will keep change by iterating the index,
-so I will use an additional value called cur_end,
-when current index becomes equal to cur_end, we can increase the jump number and the cur_end update to farthest
+As we iterate through the current range, we continuously update farthest.
+When the current index reaches cur_end, it means we have finished checking all positions
+that are reachable with the current number of jumps.
+
+At that point, we need to make one more jump, so we increase the jump count
+and update cur_end to farthest.
+
+We stop before the last index because once we reach the last index,
+we do not need to jump again.
 """
 class Solution:
     def jump(self, nums: List[int]) -> int:
@@ -26,4 +33,3 @@ class Solution:
                 cur_end = farthest
 
         return steps
-            
